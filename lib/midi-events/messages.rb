@@ -9,7 +9,7 @@ module MIDIEvents
 
     STATUS = 0xD
     DATA = [:channel, :value].freeze
-    DISPLAY_NAME = "Channel Aftertouch"
+    DISPLAY_NAME = 'Channel Aftertouch'.freeze
 
     ChannelMessage::Accessors.decorate(self)
 
@@ -25,8 +25,8 @@ module MIDIEvents
 
     STATUS = 0xB
     DATA = [:channel, :index, :value].freeze
-    DISPLAY_NAME = "Control Change"
-    CONSTANT = { "Control Change" => :index }.freeze
+    DISPLAY_NAME = 'Control Change'.freeze
+    CONSTANT = { 'Control Change' => :index }.freeze
 
     ChannelMessage::Accessors.decorate(self)
 
@@ -42,7 +42,7 @@ module MIDIEvents
 
     STATUS = 0xE
     DATA = [:channel, :low, :high].freeze
-    DISPLAY_NAME = "Pitch Bend"
+    DISPLAY_NAME = 'Pitch Bend'.freeze
 
     ChannelMessage::Accessors.decorate(self)
 
@@ -57,8 +57,8 @@ module MIDIEvents
 
     STATUS = 0xA
     DATA = [:channel, :note, :value].freeze
-    DISPLAY_NAME = "Polyphonic Aftertouch"
-    CONSTANT = { "Note" => :note }.freeze
+    DISPLAY_NAME = 'Polyphonic Aftertouch'.freeze
+    CONSTANT = { 'Note' => :note }.freeze
 
     ChannelMessage::Accessors.decorate(self)
 
@@ -76,7 +76,7 @@ module MIDIEvents
 
     STATUS = 0xC
     DATA = [:channel, :program].freeze
-    DISPLAY_NAME = "Program Change"
+    DISPLAY_NAME = 'Program Change'.freeze
 
     ChannelMessage::Accessors.decorate(self)
 
@@ -91,8 +91,8 @@ module MIDIEvents
 
     STATUS = 0x8
     DATA = [:channel, :note, :velocity].freeze
-    DISPLAY_NAME = "Note Off"
-    CONSTANT = { "Note" => :note }.freeze
+    DISPLAY_NAME = 'Note Off'.freeze
+    CONSTANT = { 'Note' => :note }.freeze
 
     ChannelMessage::Accessors.decorate(self)
 
@@ -107,8 +107,8 @@ module MIDIEvents
 
     STATUS = 0x9
     DATA = [:channel, :note, :velocity].freeze
-    DISPLAY_NAME = "Note On"
-    CONSTANT = { "Note" => :note }.freeze
+    DISPLAY_NAME = 'Note On'.freeze
+    CONSTANT = { 'Note' => :note }.freeze
 
     ChannelMessage::Accessors.decorate(self)
 
@@ -126,13 +126,13 @@ module MIDIEvents
 
     include SystemMessage
 
-    ID = 0x1..0x6
-    DISPLAY_NAME = "System Common"
+    ID = (0x1..0x6).freeze
+    DISPLAY_NAME = 'System Common'.freeze
 
     attr_reader :data
 
     def initialize(*args)
-      options = args.last.kind_of?(Hash) ? args.pop : {}
+      options = args.last.is_a?(Hash) ? args.pop : {}
       @const = options[:const]
       id = @const.nil? ? args.shift : @const.value
       id = strip_redundant_nibble(id)
@@ -149,11 +149,11 @@ module MIDIEvents
 
     include SystemMessage
 
-    ID = 0x8..0xF
-    DISPLAY_NAME = "System Realtime"
+    ID = (0x8..0xF).freeze
+    DISPLAY_NAME = 'System Realtime'.freeze
 
     def initialize(*args)
-      options = args.last.kind_of?(Hash) ? args.pop : {}
+      options = args.last.is_a?(Hash) ? args.pop : {}
       @const = options[:const]
       id = @const.nil? ? args.first : @const.value
       id = strip_redundant_nibble(id)
@@ -170,10 +170,10 @@ module MIDIEvents
 
     ID = 0x0
     DELIMITER = {
-      :start => 0xF0,
-      :finish => 0xF7
-    }
-    DISPLAY_NAME = "System Exclusive"
+      start: 0xF0,
+      finish: 0xF7
+    }.freeze
+    DISPLAY_NAME = 'System Exclusive'.freeze
 
     # A SysEx command message
     # A command message is identified by having a status byte equal to 0x12
@@ -188,7 +188,7 @@ module MIDIEvents
 
       def initialize(address, data, options = {})
         # store as a byte if it's a single byte
-        @data = if data.kind_of?(Array) && data.length == 1
+        @data = if data.is_a?(Array) && data.length == 1
           data.first
         else
           data
@@ -210,7 +210,7 @@ module MIDIEvents
       TYPE = 0x11
 
       def initialize(address, size, options = {})
-        self.size = if size.kind_of?(Array) && size.count == 1
+        self.size = if size.is_a?(Array) && size.count == 1
           size.first
         else
           size
@@ -222,9 +222,9 @@ module MIDIEvents
         # accepts a Numeric or Array but
         # must always store value as an array of three bytes
         size = []
-        if value.kind_of?(Array) && value.size <= 3
+        if value.is_a?(Array) && value.size <= 3
           size = value
-        elsif value.kind_of?(Numeric) && (value + 1) / 247 <= 2
+        elsif value.is_a?(Numeric) && (value + 1) / 247 <= 2
           size = []
           div, mod = *value.divmod(247)
           size << mod unless mod.zero?

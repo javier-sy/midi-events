@@ -19,7 +19,7 @@ module MIDIEvents
     # @param [*Fixnum] data The status nibbles and data bytes
     def initialize(*data)
       data = data.dup
-      options = data.last.kind_of?(Hash) ? data.pop : {}
+      options = data.last.is_a?(Hash) ? data.pop : {}
       add_constant_value(options[:const], data) unless options[:const].nil?
       initialize_channel_message(self.class.type_for_status, *data)
     end
@@ -54,9 +54,9 @@ module MIDIEvents
     class Accessors
 
       SCHEMA = [
-        { :name => :status, :index => 1 }, # second status nibble
-        { :name => :data, :index => 0 }, # first data byte
-        { :name => :data, :index => 1 } # second data byte
+        { name: :status, index: 1 }, # second status nibble
+        { name: :data, index: 0 }, # first data byte
+        { name: :data, index: 1 } # second data byte
       ].freeze
 
       # @param [Class] klass
@@ -123,7 +123,7 @@ module MIDIEvents
     module ClassMethods
 
       def properties
-        const_get("DATA") if const_defined?("DATA")
+        const_get('DATA') if const_defined?('DATA')
       end
 
       # Does the schema of this Channel Message carry a second data byte?
@@ -143,7 +143,7 @@ module MIDIEvents
 
       include ChannelMessage
 
-      DISPLAY_NAME = "Channel Message"
+      DISPLAY_NAME = 'Channel Message'.freeze
 
       # Build a Channel Message from raw nibbles and bytes
       # eg ChannelMessage.new(0x9, 0x0, 0x40, 0x40)
@@ -153,7 +153,5 @@ module MIDIEvents
         initialize_channel_message(*data)
       end
     end
-
   end
-
 end
