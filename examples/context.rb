@@ -8,7 +8,7 @@ $:.unshift(File.join("..", "lib"))
 require "midi-message"
 require "pp"
 
-MIDIMessage.with(:channel => 0, :velocity => 100) do
+MIDIEvents.with(:channel => 0, :velocity => 100) do
 
   note_on("E4")
   note_off("E4")

@@ -1,9 +1,9 @@
-module MIDIMessage
+module MIDIEvents
 
   # MIDI System-Exclusive Messages (SysEx)
   module SystemExclusive
 
-    include MIDIMessage # this enables ..kind_of?(MIDIMessage)
+    include MIDIEvents # this enables ..kind_of?(MIDIMessage)
 
     def self.included(base)
       base.send(:include, InstanceMethods)

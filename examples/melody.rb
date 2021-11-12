@@ -17,7 +17,7 @@ melody = []
 
 (0..((octaves-1)*12)).step(12) do |oct|
 
-  notes.each { |note| melody << MIDIMessage::NoteOn.new(channel, note + oct, velocity) }
+  notes.each { |note| melody << MIDIEvents::NoteOn.new(channel, note + oct, velocity) }
 
 end
 

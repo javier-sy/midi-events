@@ -1,9 +1,9 @@
-module MIDIMessage
+module MIDIEvents
 
   # Common behavior amongst Channel Message types
   module ChannelMessage
 
-    include MIDIMessage # this enables ..kind_of?(MIDIMessage)
+    include MIDIEvents # this enables ..kind_of?(MIDIEvents)
 
     attr_reader :data, :name
 
@@ -27,7 +27,7 @@ module MIDIMessage
     private
 
     def self.included(base)
-      base.send(:include, ::MIDIMessage::Message)
+      base.send(:include, ::MIDIEvents::Message)
       base.send(:extend, ClassMethods)
     end
 
@@ -67,7 +67,7 @@ module MIDIMessage
       end
 
       # Initialize a message object with it's properties
-      # @param [MIDIMessage] message
+      # @param [MIDIEvents] message
       # @return [Boolean]
       def self.initialize(message)
         message.class.properties.each_with_index do |property, i|
@@ -145,23 +145,13 @@ module MIDIMessage
 
       DISPLAY_NAME = "Channel Message"
 
-      # Build a Channel Mssage from raw nibbles and bytes
+      # Build a Channel Message from raw nibbles and bytes
       # eg ChannelMessage.new(0x9, 0x0, 0x40, 0x40)
       # @param [*Fixnum] data The status nibbles and data bytes
       # @return [RawChannelMessage] The resulting RawChannelMessage object
       def initialize(*data)
         initialize_channel_message(*data)
       end
-
-      # Convert this RawChannelMessage to one of the more specific ChannelMessage types
-      # eg. RawChannelMessage.new(0x9, 0x0, 0x40, 0x40).to_type would result in
-      # NoteMessage.new(0x0, 0x40, 0x40)
-      # @return [ChannelMessage] The resulting specific ChannelMessage object
-      def to_type
-        status = (@status[0] << 4) + (@status[1])
-        MIDIMessage.parse(status, *@data)
-      end
-
     end
 
   end

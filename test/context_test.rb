@@ -1,6 +1,6 @@
 require "helper"
 
-class MIDIMessage::ContextTest < Minitest::Test
+class MIDIEvents::ContextTest < Minitest::Test
 
   context "Context" do
 
@@ -9,7 +9,7 @@ class MIDIMessage::ContextTest < Minitest::Test
       context "note off" do
 
         setup do
-          @message = MIDIMessage.with(:channel => 0, :velocity => 64) do
+          @message = MIDIEvents.with(:channel => 0, :velocity => 64) do
             note_off(55)
           end
         end
@@ -27,7 +27,7 @@ class MIDIMessage::ContextTest < Minitest::Test
       context "note on" do
 
         setup do
-          @message = MIDIMessage.with(:channel => 0, :velocity => 64) do
+          @message = MIDIEvents.with(:channel => 0, :velocity => 64) do
             note_on(55)
           end
         end
@@ -45,7 +45,7 @@ class MIDIMessage::ContextTest < Minitest::Test
       context "cc" do
 
         setup do
-          @message = MIDIMessage::Context.with(:channel => 2) do
+          @message = MIDIEvents::Context.with(:channel => 2) do
             control_change(0x20, 0x30)
           end
         end
@@ -63,7 +63,7 @@ class MIDIMessage::ContextTest < Minitest::Test
       context "polyphonic aftertouch" do
 
         setup do
-          @message = MIDIMessage::Context.with(:channel => 1) do
+          @message = MIDIEvents::Context.with(:channel => 1) do
             polyphonic_aftertouch(0x40, 0x40)
           end
         end
@@ -81,7 +81,7 @@ class MIDIMessage::ContextTest < Minitest::Test
       context "program change" do
 
         setup do
-          @message = MIDIMessage.with(:channel => 3) do
+          @message = MIDIEvents.with(:channel => 3) do
             program_change(0x40)
           end
         end
@@ -98,7 +98,7 @@ class MIDIMessage::ContextTest < Minitest::Test
       context "channel aftertouch" do
 
         setup do
-          @message = MIDIMessage.with(:channel => 3) do
+          @message = MIDIEvents.with(:channel => 3) do
             channel_aftertouch(0x50)
           end
         end
@@ -115,7 +115,7 @@ class MIDIMessage::ContextTest < Minitest::Test
       context "pitch bend" do
 
         setup do
-          @message = MIDIMessage.with(:channel => 0) do
+          @message = MIDIEvents.with(:channel => 0) do
             pitch_bend(0x50, 0xA0)
           end
         end

@@ -1,4 +1,4 @@
-module MIDIMessage
+module MIDIEvents
 
   # Common Note Message Behavior
   module NoteMessage

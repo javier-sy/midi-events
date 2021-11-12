@@ -1,4 +1,4 @@
-module MIDIMessage
+module MIDIEvents
 
   #
   # MIDI Channel Aftertouch message

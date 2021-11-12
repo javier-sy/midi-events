@@ -10,9 +10,9 @@ require "pp"
 
 # some messages for a sequencer
 
-pp MIDIMessage::SystemRealtime["Start"].new
-pp MIDIMessage::NoteOn["E4"].new(0, 100)
-pp MIDIMessage::SystemRealtime["Stop"].new
+pp MIDIEvents::SystemRealtime["Start"].new
+pp MIDIEvents::NoteOn["E4"].new(0, 100)
+pp MIDIEvents::SystemRealtime["Stop"].new
 
 # this should output something like:
 

@@ -1,27 +1,27 @@
-# MIDI Message
+# MIDI Events
 
-![midi](http://img208.imageshack.us/img208/5623/mks80small.jpg)
-
-Ruby MIDI message objects
+Ruby MIDI Events objects
 
 ## Features
 
+TO-REVIEW
+
 * Flexible API to accommodate various sources and destinations of MIDI data
 * Simple approach to System Exclusive data and devices
-* [YAML dictionary of MIDI constants](https://github.com/arirusso/midi-message/blob/master/lib/midi.yml)
+* [YAML dictionary of MIDI constants](https://github.com/javier-sy/midi-events/blob/master/lib/midi.yml)
 
 ## Install
 
-`gem install midi-message`
+`gem install midi-events`
 
 Or if you're using Bundler, add this to your Gemfile
 
-`gem "midi-message"`
+`gem "midi-events"`
 
 ## Usage
 
 ```ruby
-require "midi-message"
+require "midi-events"
 ```
 
 #### Basic Messages
@@ -29,17 +29,17 @@ require "midi-message"
 There are a few ways to create a new MIDI message.  Here are some examples
 
 ```ruby
-MIDIMessage::NoteOn.new(0, 64, 64)
+MIDIEvents::NoteOn.new(0, 64, 64)
 
-MIDIMessage::NoteOn["E4"].new(0, 100)
+MIDIEvents::NoteOn["E4"].new(0, 100)
 
-MIDIMessage.with(:channel => 0, :velocity => 100) { note_on("E4") }
+MIDIEvents.with(:channel => 0, :velocity => 100) { note_on("E4") }
 ```
 
 Those expressions all evaluate to the same object
 
 ```ruby
-#<MIDIMessage::NoteOn:0x9c1c240
+#<MIDIEvents::NoteOn:0x9c1c240
    @channel=0,
    @data=[64, 64],
    @name="E4",
@@ -54,7 +54,7 @@ Those expressions all evaluate to the same object
 As with any kind of message, you can begin with raw data
 
 ```ruby
-MIDIMessage::SystemExclusive.new(0xF0, 0x41, 0x10, 0x42, 0x12, 0x40, 0x00, 0x7F, 0x00, 0x41, 0xF7)
+MIDIEvents::SystemExclusive.new(0xF0, 0x41, 0x10, 0x42, 0x12, 0x40, 0x00, 0x7F, 0x00, 0x41, 0xF7)
 ```
 
 Or in a more object oriented way
@@ -76,7 +76,7 @@ synth.command([0x40, 0x7F, 0x00], 0x00)
 One way or another, you will wind up with a pair of objects like this
 
 ```ruby
-#<MIDIMessage::SystemExclusive::Command:0x9c1e57c
+#<MIDIEvents::SystemExclusive::Command:0x9c1e57c
    @address=[64, 0, 127],
    @checksum=[65],
    @data=[0],
@@ -87,32 +87,33 @@ One way or another, you will wind up with a pair of objects like this
      @model_id=66>>
 ```
 
-#### Parsing
-
-The parse method will take any valid message data and return the object representation
-
-```ruby
-MIDIMessage.parse(0x90, 0x40, 0x40)
-
-  #<MIDIMessage::NoteOn:0x9c1c240 ..>
-
-MIDIMessage.parse(0xF0, 0x41, 0x10, 0x42, 0x12, 0x40, 0x00, 0x7F, 0x00, 0x41, 0xF7)
-
-  #<MIDIMessage::SystemExclusive::Command:0x9c1e57c ..>
-```
-
-Check out [nibbler](http://github.com/arirusso/nibbler) for more advanced parsing
+Check out [midi-parser](http://github.com/javier-sy/midi-parser) for advanced parsing
 
 ## Documentation
 
-* [rdoc](http://rubydoc.info/github/arirusso/midi-message)
+* [rdoc](http://rubydoc.info/github/javier-sy/midi-events)
+
+## Differences between [MIDI Events](https://github.com/javier-sy/midi-events) and [MIDI Message](https://github.com/arirusso/midi-message)
+
+[MIDI Events](https://github.com/javier-sy/midi-events) is mostly a clone of [MIDI Message](https://github.com/arirusso/midi-message) with some modifications:
+* Renamed gem to midi-events instead of midi-message
+* Renamed module to MIDIEvents instead of MIDIMessage
+* Removed parsing features (in favour of the more complete parser [MIDI Parser](https://github.com/javier-sy/midi-parser))
+* TODO: update tests to use rspec instead of rake
+* TODO: migrate (or confirm it's working ok) on to Ruby 3.0 or Ruby 3.1
 
 ## Author
 
-* [Ari Russo](http://github.com/arirusso) <ari.russo at gmail.com>
+* [Javier Sánchez Yeste](https://github.com/javier-sy)
+
+## Acknowledgements
+
+Thanks to [Ari Russo](http://github.com/arirusso) for his ruby library [MIDI Message](https://github.com/arirusso/midi-message) licensed as Apache License 2.0.
 
 ## License
 
-Apache 2.0, See the file LICENSE
+[MIDI Events](https://github.com/javier-sy/midi-events) Copyright (c) 2021 [Javier Sánchez Yeste](https://yeste.studio), licensed under LGPL 3.0 License
 
-Copyright (c) 2011-2015 [Ari Russo](http://arirusso.com)
+[MIDI Message](https://github.com/arirusso/midi-message) Copyright (c) 2011-2015 [Ari Russo](http://arirusso.com), licensed under Apache License 2.0 (see the file LICENSE.midi-message)
+
+

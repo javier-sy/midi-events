@@ -1,4 +1,4 @@
-module MIDIMessage
+module MIDIEvents
 
   # A DSL for instantiating message objects
   class Context

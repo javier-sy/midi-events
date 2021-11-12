@@ -1,4 +1,4 @@
-module MIDIMessage
+module MIDIEvents
 
   # Common MIDI system message behavior
   module SystemMessage

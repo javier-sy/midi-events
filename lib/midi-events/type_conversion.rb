@@ -1,4 +1,4 @@
-module MIDIMessage
+module MIDIEvents
  
   # Helper for converting nibbles and bytes
   module TypeConversion

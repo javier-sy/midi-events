@@ -1,4 +1,4 @@
-module MIDIMessage
+module MIDIEvents
 
   # Refer to a MIDI message by its usage
   # eg *C4* for MIDI note *60* or *Bank Select* for MIDI control change *0*
@@ -7,7 +7,7 @@ module MIDIMessage
     # Get a Mapping object for the specified constant
     # @param [Symbol, String] group_name
     # @param [String] const_name
-    # @return [MIDIMessage::Constant::Map, nil]
+    # @return [MIDIEvents::Constant::Map, nil]
     def self.find(group_name, const_name)
       group = Group[group_name]
       group.find(const_name)
@@ -135,8 +135,8 @@ module MIDIMessage
 
     class MessageBuilder
 
-      # @param [MIDIMessage] klass The message class to build
-      # @param [MIDIMessage::Constant::Map] const The constant to build the message with
+      # @param [MIDIEvents] klass The message class to build
+      # @param [MIDIEvents::Constant::Map] const The constant to build the message with
       def initialize(klass, const)
         @klass = klass
         @const = const
@@ -244,7 +244,7 @@ module MIDIMessage
 
         # This returns a MessageBuilder for the class, preloaded with the selected const
         # @param [String, Symbol] const_name The constant key to use to build the message
-        # @return [MIDIMessage::MessageBuilder] A MessageBuilder object for the passed in constant
+        # @return [MIDIEvents::MessageBuilder] A MessageBuilder object for the passed in constant
         def find(const_name)
           const = get_constant(const_name.to_s)
           MessageBuilder.new(self, const) unless const.nil?

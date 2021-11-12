@@ -1,6 +1,6 @@
 require "helper"
 
-class MIDIMessage::SystemMessageTest < Minitest::Test
+class MIDIEvents::SystemMessageTest < Minitest::Test
 
   context "SystemMessage" do
 
@@ -11,7 +11,7 @@ class MIDIMessage::SystemMessageTest < Minitest::Test
         context "normal" do
 
           should "construct message" do
-            @message = MIDIMessage::SystemCommon.new(0x2, 0x00, 0x08)
+            @message = MIDIEvents::SystemCommon.new(0x2, 0x00, 0x08)
             assert_equal("Song Position Pointer", @message.name)
             assert_equal(0xF, @message.status[0])
             assert_equal(0x2, @message.status[1])
@@ -26,7 +26,7 @@ class MIDIMessage::SystemMessageTest < Minitest::Test
         context "redundant" do
 
           should "construct message" do
-            @message = MIDIMessage::SystemCommon.new(0xF2, 0x00, 0x08)
+            @message = MIDIEvents::SystemCommon.new(0xF2, 0x00, 0x08)
             assert_equal("Song Position Pointer", @message.name)
             assert_equal(0xF, @message.status[0])
             assert_equal(0x2, @message.status[1])
@@ -41,7 +41,7 @@ class MIDIMessage::SystemMessageTest < Minitest::Test
         context "with constant" do
 
           should "construct message" do
-            @message = MIDIMessage::SystemCommon["Song Position Pointer"].new(0x00, 0x08)
+            @message = MIDIEvents::SystemCommon["Song Position Pointer"].new(0x00, 0x08)
             assert_equal("Song Position Pointer", @message.name)
             assert_equal(0xF, @message.status[0])
             assert_equal(0x2, @message.status[1])
@@ -60,7 +60,7 @@ class MIDIMessage::SystemMessageTest < Minitest::Test
         context "normal" do
 
           should "construct message" do
-            @message = MIDIMessage::SystemRealtime.new(0x8)
+            @message = MIDIEvents::SystemRealtime.new(0x8)
             assert_equal("Clock", @message.name)
             assert_equal(0xF, @message.status[0])
             assert_equal(0x8, @message.status[1])
@@ -73,7 +73,7 @@ class MIDIMessage::SystemMessageTest < Minitest::Test
         context "redundant" do
 
           should "construct message" do
-            @message = MIDIMessage::SystemRealtime.new(0xF8)
+            @message = MIDIEvents::SystemRealtime.new(0xF8)
             assert_equal("Clock", @message.name)
             assert_equal(0xF, @message.status[0])
             assert_equal(0x8, @message.status[1])
@@ -86,7 +86,7 @@ class MIDIMessage::SystemMessageTest < Minitest::Test
         context "with constant" do
 
           should "construct message" do
-            @message = MIDIMessage::SystemRealtime["Clock"].new
+            @message = MIDIEvents::SystemRealtime["Clock"].new
             assert_equal("Clock", @message.name)
             assert_equal(0xF, @message.status[0])
             assert_equal(0x8, @message.status[1])

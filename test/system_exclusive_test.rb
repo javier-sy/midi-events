@@ -1,6 +1,6 @@
 require "helper"
 
-class MIDIMessage::SystemExclusiveTest < Minitest::Test
+class MIDIEvents::SystemExclusiveTest < Minitest::Test
 
   context "SystemExclusive" do
 
@@ -9,7 +9,7 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
       context "#initialize" do
 
         setup do
-          @node = MIDIMessage::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+          @node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
         end
 
         should "populate message" do
@@ -23,7 +23,7 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
       context "#request" do
 
         setup do
-          @node = MIDIMessage::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+          @node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
           @message = @node.request([0x40, 0x7F, 0x00], 0x10)
         end
 
@@ -38,7 +38,7 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
       context "#manufacturer_id" do
 
         setup do
-          @node = MIDIMessage::SystemExclusive::Node.new(:Roland, :model_id => 0x42, :device_id => 0x10)
+          @node = MIDIEvents::SystemExclusive::Node.new(:Roland, :model_id => 0x42, :device_id => 0x10)
         end
 
         should "populate manufacturer id from constant" do
@@ -55,13 +55,13 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
         context "nil" do
 
           setup do
-            @node = MIDIMessage::SystemExclusive::Node.new(:Roland, :device_id => 0x10)
-            @message = MIDIMessage::SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x10, :node => @node)
+            @node = MIDIEvents::SystemExclusive::Node.new(:Roland, :device_id => 0x10)
+            @message = MIDIEvents::SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x10, :node => @node)
           end
 
           should "create node with nil model_id" do
             assert_equal(0x41, @node.manufacturer_id)
-            assert_equal(nil, @node.model_id)
+            assert_nil(@node.model_id)
             assert_equal(0x10, @node.device_id)
             assert_equal([0x41, 0x10], @node.to_a)
           end
@@ -78,8 +78,8 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
       context "#new_message_from" do
 
         setup do
-          @prototype = MIDIMessage::SystemExclusive::Request.new([0x40, 0x7F, 0x00], 0x10)
-          @node = MIDIMessage::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+          @prototype = MIDIEvents::SystemExclusive::Request.new([0x40, 0x7F, 0x00], 0x10)
+          @node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
           @message = @node.new_message_from(@prototype)
         end
 
@@ -102,8 +102,8 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
         context "with node" do
 
           setup do
-            @node = MIDIMessage::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
-            @message = MIDIMessage::SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x10, :node => @node)
+            @node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+            @message = MIDIEvents::SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x10, :node => @node)
           end
 
           should "create message and associate with node" do
@@ -117,7 +117,7 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
         context "without node" do
 
           setup do
-            @message = MIDIMessage::SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x10)
+            @message = MIDIEvents::SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x10)
           end
 
           should "populate message" do
@@ -131,8 +131,8 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
       context "#checksum" do
 
         setup do
-          @node = MIDIMessage::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
-          @message = MIDIMessage::SystemExclusive::Command.new([0x40, 0x00, 0x7F], 0x00, :node => @node)
+          @node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+          @message = MIDIEvents::SystemExclusive::Command.new([0x40, 0x00, 0x7F], 0x00, :node => @node)
         end
 
         should "have correct checksum" do
@@ -144,8 +144,8 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
       context "#to_a" do
 
         setup do
-          @node = MIDIMessage::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
-          @message = MIDIMessage::SystemExclusive::Command.new([0x40, 0x00, 0x7F], 0x00, :node => @node)
+          @node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+          @message = MIDIEvents::SystemExclusive::Command.new([0x40, 0x00, 0x7F], 0x00, :node => @node)
         end
 
         should "have correct data in bytes" do
@@ -157,8 +157,8 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
       context "#to_s" do
 
         setup do
-          @node = MIDIMessage::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
-          @message = MIDIMessage::SystemExclusive::Command.new([0x40, 0x00, 0x7F], 0x00, :node => @node)
+          @node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+          @message = MIDIEvents::SystemExclusive::Command.new([0x40, 0x00, 0x7F], 0x00, :node => @node)
         end
 
         should "have correct data as hex string" do
@@ -174,13 +174,13 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
       context "#size" do
 
         setup do
-          @node = MIDIMessage::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+          @node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
         end
 
         context "array" do
 
           setup do
-            @message = MIDIMessage::SystemExclusive::Request.new([0x40, 0x7F, 0x00], [0x0, 0x9, 0x10], :node => @node)
+            @message = MIDIEvents::SystemExclusive::Request.new([0x40, 0x7F, 0x00], [0x0, 0x9, 0x10], :node => @node)
           end
 
           should "should have correct size data" do
@@ -194,7 +194,7 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
         context "byte" do
 
           setup do
-            @message = MIDIMessage::SystemExclusive::Request.new([0x40, 0x7F, 0x00], 0x10, :node => @node)
+            @message = MIDIEvents::SystemExclusive::Request.new([0x40, 0x7F, 0x00], 0x10, :node => @node)
           end
 
           should "should have correct size data" do
@@ -208,7 +208,7 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
         context "numeric" do
 
           setup do
-            @message = MIDIMessage::SystemExclusive::Request.new([0x40, 0x7F, 0x00], 300, :node => @node)
+            @message = MIDIEvents::SystemExclusive::Request.new([0x40, 0x7F, 0x00], 300, :node => @node)
           end
 
           should "should have correct size data" do
@@ -230,7 +230,7 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
         context "normal message" do
 
           setup do
-            @message = MIDIMessage::SystemExclusive::Builder.build(0xF0, 0x41, 0x10, 0x42, 0x12, 0x40, 0x00, 0x7F, 0x10, 0x41, 0xF7)
+            @message = MIDIEvents::SystemExclusive::Builder.build(0xF0, 0x41, 0x10, 0x42, 0x12, 0x40, 0x00, 0x7F, 0x10, 0x41, 0xF7)
           end
 
           should "create message" do
@@ -246,7 +246,7 @@ class MIDIMessage::SystemExclusiveTest < Minitest::Test
         context "weird message" do
 
           setup do
-            @message = MIDIMessage::SystemExclusive::Builder.build(0xF0, 0x41, 0x12, 0x40, 0x00, 0x7F, 0x10, 0x41, 0xF7)
+            @message = MIDIEvents::SystemExclusive::Builder.build(0xF0, 0x41, 0x12, 0x40, 0x00, 0x7F, 0x10, 0x41, 0xF7)
           end
 
           should "create message" do

@@ -1,4 +1,4 @@
-module MIDIMessage
+module MIDIEvents
 
   # Common behavior amongst all Message types
   module Message
@@ -52,7 +52,7 @@ module MIDIMessage
 
     def self.included(base)
       base.send(:extend, Constant::Loader::DSL)
-      base.send(:include, MIDIMessage) # this enables ..kind_of?(MIDIMessage)
+      base.send(:include, MIDIEvents) # this enables ..kind_of?(MIDIMessage)
       base.send(:attr_reader, :name, :status, :verbose_name)
     end
 

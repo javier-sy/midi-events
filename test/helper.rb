@@ -1,7 +1,9 @@
-$:.unshift(File.join("..", "lib"))
+$:.unshift(File.join('..', 'lib'))
 
-require "minitest/autorun"
-require "mocha/test_unit"
-require "shoulda-context"
+require 'rubygems'
+gem 'mocha'
+require 'minitest/autorun'
+require 'mocha/minitest'
+require 'shoulda-context'
 
-require "midi-message"
+require 'midi-events'

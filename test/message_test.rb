@@ -1,6 +1,6 @@
 require "helper"
 
-class MIDIMessage::MessageTest < Minitest::Test
+class MIDIEvents::MessageTest < Minitest::Test
 
   context "Message" do
 
@@ -9,7 +9,7 @@ class MIDIMessage::MessageTest < Minitest::Test
       context "note" do
 
         setup do
-          @message = MIDIMessage::NoteOn["E4"].new(0, 100)
+          @message = MIDIEvents::NoteOn["E4"].new(0, 100)
           assert_equal(0x40, @message.note)
           assert_equal("E4", @message.name)
         end
@@ -25,7 +25,7 @@ class MIDIMessage::MessageTest < Minitest::Test
       context "octave" do
 
         setup do
-          @message = MIDIMessage::NoteOn["E4"].new(0, 100)
+          @message = MIDIEvents::NoteOn["E4"].new(0, 100)
           assert_equal(0x40, @message.note)
           assert_equal("E4", @message.name)
         end
