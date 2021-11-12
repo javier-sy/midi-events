@@ -5,8 +5,7 @@
 
 $:.unshift(File.join("..", "lib"))
 
-require "midi-message"
-require "pp"
+require "midi-events"
 
 # you can create a message by parsing bytes
 
@@ -16,7 +15,7 @@ pp MIDIEvents.parse(0xF0, 0x41, 0x10, 0x42, 0x12, 0x40, 0x00, 0x7F, 0x00, 0x41, 
 # a Node represents a device that you"re sending a message to
 # (eg. your Yamaha DX7 is a Node).
 
-node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+node = MIDIEvents::SystemExclusive::Node.new(0x41, model_id: 0x42, device_id: 0x10)
 
 # The following will create a command object for address "407F00" with value "00"
 # associated with our node
@@ -26,7 +25,7 @@ node = MIDIEvents::SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id
 # A Request type message (SystemExclusive::Request) has a status byte
 # equal to 0x11
 
-pp MIDIEvents::SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x00, :node => node)
+pp MIDIEvents::SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x00, node: node)
 
 # it is actually optional to pass a node to your message-- one case where not
 # doing so is useful is when want to have a generic message prototype used with

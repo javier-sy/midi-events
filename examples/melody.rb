@@ -5,8 +5,7 @@
 
 $:.unshift(File.join("..", "lib"))
 
-require "midi-message"
-require "pp"
+require "midi-events"
 
 channel = 0
 notes = [36, 40, 43] # C E G

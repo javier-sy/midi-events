@@ -5,8 +5,7 @@
 
 $:.unshift(File.join("..", "lib"))
 
-require "midi-message"
-require "pp"
+require "midi-events"
 
 MIDIEvents.with(:channel => 0, :velocity => 100) do
 

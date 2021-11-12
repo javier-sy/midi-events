@@ -5,8 +5,7 @@
 
 $:.unshift(File.join("..", "lib"))
 
-require "midi-message"
-require "pp"
+require "midi-events"
 
 # some messages for a sequencer
 

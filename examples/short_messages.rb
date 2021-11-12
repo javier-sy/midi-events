@@ -5,8 +5,7 @@
 
 $:.unshift(File.join("..", "lib"))
 
-require "midi-message"
-require "pp"
+require "midi-events"
 
 # Here are examples of different ways to construct messages, going from low to high-level
 
