@@ -1,10 +1,22 @@
 # MIDI Events
 
-Ruby MIDI Events objects
+**Ruby MIDI Events Objects**
+
+This library is part of a suite of Ruby libraries for MIDI:
+
+| Function | Library |
+| --- | --- |
+| MIDI Events representation | [MIDI Events](https://github.com/javier-sy/midi-events) |
+| MIDI Data parsing | [MIDI Parser](https://github.com/javier-sy/midi-parser) |
+| MIDI communication with Instruments and Control Surfaces | [MIDI Communications](https://github.com/javier-sy/midi-communications) |
+| Low level MIDI interface to MacOS | [MIDI Communications MacOS Layer](https://github.com/javier-sy/midi-communications-macos) |
+| Low level MIDI interface to Linux | Work in progress | 
+| Low level MIDI interface to JRuby | Work in progress | 
+| Low level MIDI interface to Windows | Work in progress | 
+
+This library is based on [Ari Russo's](http://github.com/arirusso) library [MIDI Message](https://github.com/arirusso/midi-message).
 
 ## Features
-
-TO-REVIEW
 
 * Flexible API to accommodate various sources and destinations of MIDI data
 * Simple approach to System Exclusive data and devices
@@ -26,7 +38,7 @@ require "midi-events"
 
 #### Basic Messages
 
-There are a few ways to create a new MIDI message.  Here are some examples
+There are a few ways to create a new MIDI event. Here are some examples:
 
 ```ruby
 MIDIEvents::NoteOn.new(0, 64, 64)
@@ -36,7 +48,7 @@ MIDIEvents::NoteOn["E4"].new(0, 100)
 MIDIEvents.with(:channel => 0, :velocity => 100) { note_on("E4") }
 ```
 
-Those expressions all evaluate to the same object
+Those expressions all evaluate to the same object:
 
 ```ruby
 #<MIDIEvents::NoteOn:0x9c1c240
@@ -51,29 +63,29 @@ Those expressions all evaluate to the same object
 
 #### SysEx Messages
 
-As with any kind of message, you can begin with raw data
+As with any kind of message, you can begin with raw data:
 
 ```ruby
 MIDIEvents::SystemExclusive.new(0xF0, 0x41, 0x10, 0x42, 0x12, 0x40, 0x00, 0x7F, 0x00, 0x41, 0xF7)
 ```
 
-Or in a more object oriented way
+Or in a more object oriented way:
 
 ```ruby  
-synth = SystemExclusive::Node.new(0x41, :model_id => 0x42, :device_id => 0x10)
+synth = SystemExclusive::Node.new(0x41, model_id: 0x42, device_id: 0x10)
 
-SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x00, :node => synth)
+SystemExclusive::Command.new([0x40, 0x7F, 0x00], 0x00, node: synth)
 ```
 
-A Node represents a device that you're sending a message to (eg. your Yamaha DX7 is a Node).  Sysex messages can either be a Command or Request
+A Node represents a device that you're sending a message to (eg. your Yamaha DX7 is a Node). Sysex messages can either be a Command or Request.
 
-You can use the Node to instantiate a message
+You can use the Node to instantiate a message:
 
 ```ruby  
 synth.command([0x40, 0x7F, 0x00], 0x00)
 ```
 
-One way or another, you will wind up with a pair of objects like this
+One way or another, you will wind up with a pair of objects like this:
 
 ```ruby
 #<MIDIEvents::SystemExclusive::Command:0x9c1e57c
@@ -87,20 +99,61 @@ One way or another, you will wind up with a pair of objects like this
      @model_id=66>>
 ```
 
-Check out [midi-parser](http://github.com/javier-sy/midi-parser) for advanced parsing
-
 ## Documentation
 
 * [rdoc](http://rubydoc.info/github/javier-sy/midi-events)
 
-## Differences between [MIDI Events](https://github.com/javier-sy/midi-events) and [MIDI Message](https://github.com/arirusso/midi-message)
+## Differences between [MIDI Events](https://github.com/javier-sy/midi-events) library and [MIDI Message](https://github.com/arirusso/midi-message) library
 
 [MIDI Events](https://github.com/javier-sy/midi-events) is mostly a clone of [MIDI Message](https://github.com/arirusso/midi-message) with some modifications:
 * Renamed gem to midi-events instead of midi-message
 * Renamed module to MIDIEvents instead of MIDIMessage
 * Removed parsing features (in favour of the more complete parser [MIDI Parser](https://github.com/javier-sy/midi-parser))
 * TODO: update tests to use rspec instead of rake
-* TODO: migrate (or confirm it's working ok) on to Ruby 3.0 or Ruby 3.1
+* TODO: migrate to (or confirm it's working ok on) Ruby 3.0 and Ruby 3.1
+
+## Then, why does exist this library if it is mostly a clone of another library?
+
+The author has been developing since 2016 a Ruby project called 
+[Musa DSL](https://github.com/javier-sy/musa-dsl) that needs a way 
+of representing MIDI Events and a way of communicating with 
+MIDI Instruments and MIDI Control Surfaces.
+
+[Ari Russo](https://github.com/arirusso) has done a great job creating 
+several interdependent Ruby libraries that allow 
+MIDI Events representation ([MIDI Message](https://github.com/arirusso/midi-message) 
+and [Nibbler](https://github.com/arirusso/nibbler)) 
+and communication with MIDI Instruments and MIDI Control Surfaces 
+([unimidi](https://github.com/arirusso/unimidi), 
+[ffi-coremidi](https://github.com/arirusso/ffi-coremidi) and others) 
+that, **with some modifications**, I've been using in MusaDSL.
+
+After thinking about the best approach to publish MusaDSL 
+I've decided to publish my own renamed version of the modified dependencies because:
+
+* Some differences on the approach of the modifications vs the original library doesn't allow to merge the modifications on the original libraries.
+* Then the renaming of the libraries is needed to avoid confusing existent users of the original libraries.
+* Due to some of the interdependencies of Ari Russo libraries, 
+the modification and renaming on some of the low level libraries (ffi-coremidi, etc.)
+forces to modify and rename unimidi library.
+* The original libraries have features 
+(very detailed logging and processing history information) 
+that are not needed in MusaDSL and, in fact, 
+can degrade slightly the performance on 
+some use case scenarios in MusaDSL.
+
+All in all I have decided to publish a suite of libraries optimized for MusaDSL use case that also can be used by other people in their projects.
+
+| Function | Library | Based on Ari Russo's| Difference |
+| --- | --- | --- | --- |
+| MIDI Events representation | [MIDI Events](https://github.com/javier-sy/midi-events) | [MIDI Message](https://github.com/arirusso/midi-message) | removed parsing, small improvements |
+| MIDI Data parsing | [MIDI Parser](https://github.com/javier-sy/midi-parser) | [Nibbler](https://github.com/arirusso/nibbler) | small improvements |
+| MIDI communication with Instruments and Control Surfaces | [MIDI Communications](https://github.com/javier-sy/midi-communications) | [unimidi](https://github.com/arirusso/unimidi) | use of [MIDI Communications MacOS Layer](https://github.com/javier-sy/midi-communications-macos)
+| Low level MIDI interface to MacOS | [MIDI Communications MacOS Layer](https://github.com/javier-sy/midi-communications-macos) | [ffi-coremidi](https://github.com/arirusso/ffi-coremidi) | removed process history information, locking behaviour when waiting midi events, minor optimizations |
+| Low level MIDI interface to Linux | Work in progress | | |
+| Low level MIDI interface to JRuby | Work in progress | | |
+| Low level MIDI interface to Windows | Work in progress | | |
+
 
 ## Author
 
