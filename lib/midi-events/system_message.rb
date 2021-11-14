@@ -1,8 +1,6 @@
 module MIDIEvents
-
   # Common MIDI system message behavior
   module SystemMessage
-
     STATUS = 0xF
 
     def self.included(base)
@@ -17,7 +15,5 @@ module MIDIEvents
     def strip_redundant_nibble(byte)
       byte > STATUS ? (byte & 0x0F) : byte
     end
-
   end
-
 end

@@ -1,8 +1,6 @@
 module MIDIEvents
-
   # Common behavior amongst Channel Message types
   module ChannelMessage
-
     include MIDIEvents # this enables ..kind_of?(MIDIEvents)
 
     attr_reader :data, :name
@@ -52,7 +50,6 @@ module MIDIEvents
     end
 
     class Accessors
-
       SCHEMA = [
         { name: :status, index: 1 }, # second status nibble
         { name: :data, index: 0 }, # first data byte
@@ -121,7 +118,6 @@ module MIDIEvents
 
     # For defining Channel Message class types
     module ClassMethods
-
       def properties
         const_get('DATA') if const_defined?('DATA')
       end
@@ -130,7 +126,7 @@ module MIDIEvents
       # eg. NoteMessage does, and ProgramChange doesn"t
       # @return [Boolean] Is there a second data byte on this message type?
       def second_data_byte?
-        properties.nil? || (properties.length-1) > 1
+        properties.nil? || (properties.length - 1) > 1
       end
 
     end
@@ -140,7 +136,6 @@ module MIDIEvents
     # For example ChannelMessage::Message.new(0x9, 0x0, 0x40, 0x57)
     # creates a raw note-on message
     class Message
-
       include ChannelMessage
 
       DISPLAY_NAME = 'Channel Message'.freeze

@@ -2,7 +2,6 @@ module MIDIEvents
 
   # MIDI System-Exclusive Messages (SysEx)
   module SystemExclusive
-
     include MIDIEvents # this enables ..kind_of?(MIDIMessage)
 
     def self.included(base)
@@ -11,7 +10,6 @@ module MIDIEvents
 
     # Common SysEx data that a message class will contain
     module InstanceMethods
-
       attr_accessor :node
       attr_reader :address, :checksum
 
@@ -90,7 +88,6 @@ module MIDIEvents
     # A SysEx message with no implied type
     #
     class Message
-
       include InstanceMethods
 
       attr_accessor :data
@@ -116,6 +113,11 @@ module MIDIEvents
           @data,
           end_byte
         ].compact
+      end
+
+      def ==(other_message)
+        self.class == other_message.class &&
+          to_a == other_message.to_a
       end
 
     end

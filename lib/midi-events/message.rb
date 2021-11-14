@@ -1,8 +1,6 @@
 module MIDIEvents
-
   # Common behavior amongst all Message types
   module Message
-
     # Initialize the message status
     # @param [Fixnum] status_nibble_1 The first nibble of the status
     # @param [Fixnum] status_nibble_2 The second nibble of the status
@@ -33,6 +31,11 @@ module MIDIEvents
       populate_using_const
     end
 
+    def ==(other_message)
+      self.class == other_message.class &&
+        to_a == other_message.to_a
+    end
+
     private
 
     # Convert the status nibbles to a single byte
@@ -55,7 +58,5 @@ module MIDIEvents
       base.send(:include, MIDIEvents) # this enables ..kind_of?(MIDIMessage)
       base.send(:attr_reader, :name, :status, :verbose_name)
     end
-
   end
-
 end

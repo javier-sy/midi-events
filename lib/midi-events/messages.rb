@@ -1,10 +1,8 @@
 module MIDIEvents
-
   #
   # MIDI Channel Aftertouch message
   #
   class ChannelAftertouch
-
     include ChannelMessage
 
     STATUS = 0xD
@@ -12,7 +10,6 @@ module MIDIEvents
     DISPLAY_NAME = 'Channel Aftertouch'.freeze
 
     ChannelMessage::Accessors.decorate(self)
-
   end
   ChannelPressure = ChannelAftertouch
 
@@ -20,7 +17,6 @@ module MIDIEvents
   # MIDI Control Change message
   #
   class ControlChange
-
     include ChannelMessage
 
     STATUS = 0xB
@@ -29,7 +25,6 @@ module MIDIEvents
     CONSTANT = { 'Control Change' => :index }.freeze
 
     ChannelMessage::Accessors.decorate(self)
-
   end
   Controller = ControlChange #shortcut
 
@@ -37,7 +32,6 @@ module MIDIEvents
   # MIDI Pitch Bend message
   #
   class PitchBend
-
     include ChannelMessage
 
     STATUS = 0xE
@@ -45,14 +39,12 @@ module MIDIEvents
     DISPLAY_NAME = 'Pitch Bend'.freeze
 
     ChannelMessage::Accessors.decorate(self)
-
   end
 
   #
   # MIDI Polyphonic (note specific) Aftertouch message
   #
   class PolyphonicAftertouch
-
     include ChannelMessage
 
     STATUS = 0xA
@@ -61,7 +53,6 @@ module MIDIEvents
     CONSTANT = { 'Note' => :note }.freeze
 
     ChannelMessage::Accessors.decorate(self)
-
   end
   PolyAftertouch = PolyphonicAftertouch
   PolyPressure = PolyphonicAftertouch
@@ -71,7 +62,6 @@ module MIDIEvents
   # MIDI Program Change message
   #
   class ProgramChange
-
     include ChannelMessage
 
     STATUS = 0xC
@@ -79,14 +69,12 @@ module MIDIEvents
     DISPLAY_NAME = 'Program Change'.freeze
 
     ChannelMessage::Accessors.decorate(self)
-
   end
 
   #
   # MIDI Note-Off message
   #
   class NoteOff
-
     include NoteMessage
 
     STATUS = 0x8
@@ -95,14 +83,12 @@ module MIDIEvents
     CONSTANT = { 'Note' => :note }.freeze
 
     ChannelMessage::Accessors.decorate(self)
-
   end
 
   #
   # MIDI Note-On message
   #
   class NoteOn
-
     include NoteMessage
 
     STATUS = 0x9
@@ -116,14 +102,12 @@ module MIDIEvents
     def to_note_off
       NoteOff.new(channel, note, velocity)
     end
-
   end
 
   #
   # MIDI System-Common message
   #
   class SystemCommon
-
     include SystemMessage
 
     ID = (0x1..0x6).freeze
@@ -139,14 +123,12 @@ module MIDIEvents
       initialize_message(SystemMessage::STATUS, id)
       @data = args.slice(0..1)
     end
-
   end
 
   #
   # MIDI System-Realtime message
   #
   class SystemRealtime
-
     include SystemMessage
 
     ID = (0x8..0xF).freeze
@@ -163,11 +145,9 @@ module MIDIEvents
     def id
       @status[1]
     end
-
   end
 
   module SystemExclusive
-
     ID = 0x0
     DELIMITER = {
       start: 0xF0,
@@ -178,7 +158,6 @@ module MIDIEvents
     # A SysEx command message
     # A command message is identified by having a status byte equal to 0x12
     class Command
-
       include SystemExclusive
 
       attr_accessor :data
@@ -195,13 +174,11 @@ module MIDIEvents
         end
         initialize_sysex(address, options)
       end
-
     end
 
     # A SysEx request message
     # A request message is identified by having a status byte equal to 0x11
     class Request
-
       include SystemExclusive
 
       attr_reader :size
@@ -233,9 +210,6 @@ module MIDIEvents
         (3 - size.size).times { size.unshift 0 }
         @size = size
       end
-
     end
-
   end
-
 end
