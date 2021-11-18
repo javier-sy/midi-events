@@ -19,4 +19,8 @@ Gem::Specification.new do |s|
     # "documentation_uri" => "",
     # "changelog_uri" => ""
   #}
+
+  s.add_development_dependency 'minitest', '~> 5.14', '>= 5.14.4'
+  s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.6'
+  s.add_development_dependency 'shoulda-context', '~> 2.0', '>= 2.0.0'
 end

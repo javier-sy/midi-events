@@ -1,9 +1,7 @@
 module MIDIEvents
-
   # Refer to a MIDI message by its usage
   # eg *C4* for MIDI note *60* or *Bank Select* for MIDI control change *0*
   module Constant
-
     # Get a Mapping object for the specified constant
     # @param [Symbol, String] group_name
     # @param [String] const_name
@@ -23,14 +21,13 @@ module MIDIEvents
     end
 
     module Name
-
       extend self
 
       # eg "Control Change" -> "control_change"
       # @param [Symbol, String] string
       # @return [String]
       def underscore(string)
-        string.to_s.downcase.gsub(/(\ )+/, "_")
+        string.to_s.downcase.gsub(/(\ )+/, '_')
       end
 
       # @param [Symbol, String] key
@@ -40,12 +37,10 @@ module MIDIEvents
         match_key = key.to_s.downcase
         [match_key, Name.underscore(match_key)].include?(other.to_s.downcase)
       end
-
     end
 
     # MIDI Constant container
     class Group
-
       attr_reader :constants, :key
 
       # @param [String] key
@@ -70,7 +65,6 @@ module MIDIEvents
       end
 
       class << self
-
         # All constant groups
         # @return [Array<ConstantGroup>]
         def all
@@ -85,7 +79,7 @@ module MIDIEvents
           ensure_initialized
           @groups.find { |group| Name.match?(group.key, key) }
         end
-        alias_method :[], :find
+        alias [] find
 
         private
 
@@ -98,21 +92,21 @@ module MIDIEvents
         # Populate the dictionary of constants
         # @return [Boolean]
         def populate_dictionary
-          if @dict.nil?
-            file = File.expand_path('../../midi.yml', __FILE__)
-            @dict = YAML.load_file(file)
-            @dict.freeze
-            true
-          end
+          return unless @dict.nil?
+
+          file = File.expand_path('../midi.yml', __dir__)
+          @dict = YAML.load_file(file)
+          @dict.freeze
+          true
         end
 
         # Populate the constant groups using the dictionary
         # @return [Boolean]
         def populate_groups
-          if @groups.nil? && !@dict.nil?
-            @groups = @dict.map { |k, v| new(k, v) }
-            true
-          end
+          return unless @groups.nil? && !@dict.nil?
+
+          @groups = @dict.map { |k, v| new(k, v) }
+          true
         end
 
       end
@@ -121,7 +115,6 @@ module MIDIEvents
 
     # The mapping of a constant key to its value eg "Note On" => 0x9
     class Map
-
       attr_reader :key, :value
 
       # @param [String] key
@@ -130,11 +123,9 @@ module MIDIEvents
         @key = key
         @value = value
       end
-
     end
 
     class MessageBuilder
-
       # @param [MIDIEvents] klass The message class to build
       # @param [MIDIEvents::Constant::Map] const The constant to build the message with
       def initialize(klass, const)
@@ -146,31 +137,27 @@ module MIDIEvents
       # @return [Message]
       def new(*args)
         args = args.dup
-        args.last.kind_of?(Hash) ? args.last[:const] = @const : args.push(:const => @const)
+        args.last.is_a?(Hash) ? args.last[:const] = @const : args.push(const: @const)
         @klass.new(*args)
       end
-
     end
 
     # Shortcuts for dealing with message status
     module Status
-
       extend self
 
       # The value of the Status constant with the name status_name
       # @param [String] status_name The key to use to look up a constant value
       # @return [String] The constant value that was looked up
       def find(status_name)
-        const = Constant.find("Status", status_name)
-        const.value unless const.nil?
+        const = Constant.find('Status', status_name)
+        const&.value
       end
-      alias_method :[], :find
-
+      alias [] find
     end
 
     # Loading constants from the spec file into messages
     module Loader
-
       extend self
 
       # Get the index of the constant from the given message's type
@@ -194,9 +181,9 @@ module MIDIEvents
         unless group.nil?
           unless (const = group.find_by_value(value)).nil?
             {
-              :const => const,
-              :name => const.key,
-              :verbose_name => "#{message.class.display_name}: #{const.key}"
+              const: const,
+              name: const.key,
+              verbose_name: "#{message.class.display_name}: #{const.key}"
             }
           end
         end
@@ -204,31 +191,30 @@ module MIDIEvents
 
       # DSL type class methods for loading constants into messages
       module DSL
-
         # Find a constant value in this class's group for the passed in key
         # @param [String] name The constant key
         # @return [String] The constant value
         def get_constant(name)
           key = constant_name || display_name
-          unless key.nil?
-            group = Group[key]
-            group.find(name)
-          end
+          return if key.nil?
+
+          group = Group[key]
+          group.find(name)
         end
 
         # @return [String]
         def display_name
-          const_get("DISPLAY_NAME") if const_defined?("DISPLAY_NAME")
+          const_get('DISPLAY_NAME') if const_defined?('DISPLAY_NAME')
         end
 
         # @return [Hash]
         def constant_map
-          const_get("CONSTANT") if const_defined?("CONSTANT")
+          const_get('CONSTANT') if const_defined?('CONSTANT')
         end
 
         # @return [String]
         def constant_name
-          constant_map.keys.first unless constant_map.nil?
+          constant_map&.keys&.first
         end
 
         # @return [Symbol]
@@ -249,12 +235,8 @@ module MIDIEvents
           const = get_constant(const_name.to_s)
           MessageBuilder.new(self, const) unless const.nil?
         end
-        alias_method :[], :find
-
+        alias [] find
       end
-
     end
-
   end
-
 end
