@@ -114,32 +114,33 @@ One way or another, you will wind up with a pair of objects like this:
 
 ## Then, why does exist this library if it is mostly a clone of another library?
 
-The author has been developing since 2016 a Ruby project called 
-[Musa DSL](https://github.com/javier-sy/musa-dsl) that needs a way 
-of representing MIDI Events and a way of communicating with 
+The author has been developing since 2016 a Ruby project called
+[Musa DSL](https://github.com/javier-sy/musa-dsl) that needs a way
+of representing MIDI Events and a way of communicating with
 MIDI Instruments and MIDI Control Surfaces.
 
-[Ari Russo](https://github.com/arirusso) has done a great job creating 
-several interdependent Ruby libraries that allow 
-MIDI Events representation ([MIDI Message](https://github.com/arirusso/midi-message) 
-and [Nibbler](https://github.com/arirusso/nibbler)) 
-and communication with MIDI Instruments and MIDI Control Surfaces 
-([unimidi](https://github.com/arirusso/unimidi), 
-[ffi-coremidi](https://github.com/arirusso/ffi-coremidi) and others) 
+[Ari Russo](https://github.com/arirusso) has done a great job creating
+several interdependent Ruby libraries that allow
+MIDI Events representation ([MIDI Message](https://github.com/arirusso/midi-message)
+and [Nibbler](https://github.com/arirusso/nibbler))
+and communication with MIDI Instruments and MIDI Control Surfaces
+([unimidi](https://github.com/arirusso/unimidi),
+[ffi-coremidi](https://github.com/arirusso/ffi-coremidi) and others)
 that, **with some modifications**, I've been using in MusaDSL.
 
-After thinking about the best approach to publish MusaDSL 
+After thinking about the best approach to publish MusaDSL
 I've decided to publish my own renamed version of the modified dependencies because:
 
+* The original libraries have features
+  (buffering, very detailed logging and processing history information, not locking behaviour when waiting input midi messages)
+  that are not needed in MusaDSL and, in fact,
+  can degrade the performance on some use cases in MusaDSL.
+* The requirements for **Musa DSL** users probably will evolve in time, so it will be easier to maintain an independent source code base.
 * Some differences on the approach of the modifications vs the original library doesn't allow to merge the modifications on the original libraries.
 * Then the renaming of the libraries is needed to avoid confusing existent users of the original libraries.
-* Due to some of the interdependencies of Ari Russo libraries, 
+* Due to some of the interdependencies of Ari Russo libraries,
   the modification and renaming on some of the low level libraries (ffi-coremidi, etc.)
   forces to modify and rename unimidi library.
-* The original libraries have features
-  (very detailed logging and processing history information, not locking behaviour when waiting input midi messages)
-  that are not needed in MusaDSL and, in fact,
-  can degrade the performance on some use case scenarios in MusaDSL.
 
 All in all I have decided to publish a suite of libraries optimized for MusaDSL use case that also can be used by other people in their projects.
 
@@ -147,8 +148,8 @@ All in all I have decided to publish a suite of libraries optimized for MusaDSL 
 | --- | --- | --- | --- |
 | MIDI Events representation | [MIDI Events](https://github.com/javier-sy/midi-events) | [MIDI Message](https://github.com/arirusso/midi-message) | removed parsing, small improvements |
 | MIDI Data parsing | [MIDI Parser](https://github.com/javier-sy/midi-parser) | [Nibbler](https://github.com/arirusso/nibbler) | removed process history information, minor optimizations |
-| MIDI communication with Instruments and Control Surfaces | [MIDI Communications](https://github.com/javier-sy/midi-communications) | [unimidi](https://github.com/arirusso/unimidi) | use of [MIDI Communications MacOS Layer](https://github.com/javier-sy/midi-communications-macos)
-| Low level MIDI interface to MacOS | [MIDI Communications MacOS Layer](https://github.com/javier-sy/midi-communications-macos) | [ffi-coremidi](https://github.com/arirusso/ffi-coremidi) | removed process history information, locking behaviour when waiting midi events, improved midi devices name detection, minor optimizations |
+| MIDI communication with Instruments and Control Surfaces | [MIDI Communications](https://github.com/javier-sy/midi-communications) | [unimidi](https://github.com/arirusso/unimidi) | use of [MIDI Communications MacOS Layer](https://github.com/javier-sy/midi-communications-macos, removed process history information, removed buffering, removed command line script)
+| Low level MIDI interface to MacOS | [MIDI Communications MacOS Layer](https://github.com/javier-sy/midi-communications-macos) | [ffi-coremidi](https://github.com/arirusso/ffi-coremidi) | removed buffering and process history information, locking behaviour when waiting midi events, improved midi devices name detection, minor optimizations |
 | Low level MIDI interface to Linux | **TO DO** | | |
 | Low level MIDI interface to JRuby | **TO DO** | | |
 | Low level MIDI interface to Windows | **TO DO** | | |

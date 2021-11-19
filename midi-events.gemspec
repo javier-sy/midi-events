@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'midi-events'
-  s.version     = '0.5.0'
-  s.date        = '2021-11-12'
+  s.version     = '0.5.1'
+  s.date        = '2021-11-19'
   s.summary     = 'A Ruby simple library for creating MIDI Event Messages'
   s.description = 'MIDI Events is a library for creating MIDI Event Messages that can be sent to MIDI Instruments through other libraries such as midi-communications or unimidi'
   s.authors     = ['Javier Sánchez Yeste']

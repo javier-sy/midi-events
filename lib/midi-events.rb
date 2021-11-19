@@ -23,5 +23,5 @@ require 'midi-events/context'
 require 'midi-events/messages'
 
 module MIDIEvents
-  VERSION = '0.5.0'.freeze
+  VERSION = '0.5.1'.freeze
 end
