@@ -22,6 +22,4 @@ require 'midi-events/type_conversion'
 require 'midi-events/context'
 require 'midi-events/messages'
 
-module MIDIEvents
-  VERSION = '0.5.1'.freeze
-end
+require_relative 'midi-events/version'
