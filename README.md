@@ -1,5 +1,8 @@
 # MIDI Events
 
+[![Ruby Version](https://img.shields.io/badge/ruby-2.7+-red.svg)](https://www.ruby-lang.org/)
+[![License](https://img.shields.io/badge/license-LGPL--3.0--or--later-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0.html)
+
 **Ruby MIDI Events Objects**
 
 This library is part of a suite of Ruby libraries for MIDI:
