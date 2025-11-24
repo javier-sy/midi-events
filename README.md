@@ -61,6 +61,49 @@ Those expressions all evaluate to the same object:
    @verbose_name="Note On: E4">
 ```
 
+#### Raw Channel Messages
+
+You can also create raw channel messages directly from nibbles and bytes:
+
+```ruby
+MIDIEvents::ChannelMessage.new(0x9, 0x0, 0x40, 0x40)
+```
+
+#### Mutable Properties
+
+Some message properties can be modified after creation:
+
+```ruby
+msg = MIDIEvents::NoteOn["E4"].new(0, 100)
+msg.note += 5  # Transpose up 5 semitones
+```
+
+#### System Realtime Messages
+
+System Realtime messages are used for synchronization:
+
+```ruby
+MIDIEvents::SystemRealtime["Start"].new
+MIDIEvents::SystemRealtime["Stop"].new
+```
+
+#### Building Melodies
+
+You can construct sequences of notes programmatically:
+
+```ruby
+channel = 0
+notes = [36, 40, 43]  # C E G
+octaves = 2
+velocity = 100
+
+melody = []
+
+(0..((octaves-1)*12)).step(12) do |oct|
+  notes.each { |note| melody << MIDIEvents::NoteOn.new(channel, note + oct, velocity) }
+end
+```
+
 #### SysEx Messages
 
 As with any kind of message, you can begin with raw data:
@@ -101,16 +144,15 @@ One way or another, you will wind up with a pair of objects like this:
 
 ## Documentation
 
-* (**TO DO**) [rdoc](http://rubydoc.info/github/javier-sy/midi-events)
+* [rdoc](http://rubydoc.info/github/javier-sy/midi-events)
 
 ## Differences between [MIDI Events](https://github.com/javier-sy/midi-events) library and [MIDI Message](https://github.com/arirusso/midi-message) library
 
 [MIDI Events](https://github.com/javier-sy/midi-events) is mostly a clone of [MIDI Message](https://github.com/arirusso/midi-message) with some modifications:
+
 * Renamed gem to midi-events instead of midi-message
 * Renamed module to MIDIEvents instead of MIDIMessage
 * Removed parsing features (in favour of the more complete parser [MIDI Parser](https://github.com/javier-sy/midi-parser))
-* TODO: update tests to use rspec instead of rake
-* TODO: migrate to (or confirm it's working ok on) Ruby 3.0 and Ruby 3.1
 
 ## Then, why does exist this library if it is mostly a clone of another library?
 
@@ -143,16 +185,6 @@ I've decided to publish my own renamed version of the modified dependencies beca
   forces to modify and rename unimidi library.
 
 All in all I have decided to publish a suite of libraries optimized for MusaDSL use case that also can be used by other people in their projects.
-
-| Function | Library | Based on Ari Russo's| Difference |
-| --- | --- | --- | --- |
-| MIDI Events representation | [MIDI Events](https://github.com/javier-sy/midi-events) | [MIDI Message](https://github.com/arirusso/midi-message) | removed parsing, small improvements |
-| MIDI Data parsing | [MIDI Parser](https://github.com/javier-sy/midi-parser) | [Nibbler](https://github.com/arirusso/nibbler) | removed process history information, minor optimizations |
-| MIDI communication with Instruments and Control Surfaces | [MIDI Communications](https://github.com/javier-sy/midi-communications) | [unimidi](https://github.com/arirusso/unimidi) | use of [MIDI Communications MacOS Layer](https://github.com/javier-sy/midi-communications-macos, removed process history information, removed buffering, removed command line script)
-| Low level MIDI interface to MacOS | [MIDI Communications MacOS Layer](https://github.com/javier-sy/midi-communications-macos) | [ffi-coremidi](https://github.com/arirusso/ffi-coremidi) | removed buffering and process history information, locking behaviour when waiting midi events, improved midi devices name detection, minor optimizations |
-| Low level MIDI interface to Linux | **TO DO** | | |
-| Low level MIDI interface to JRuby | **TO DO** | | |
-| Low level MIDI interface to Windows | **TO DO** | | |
 
 ## Author
 

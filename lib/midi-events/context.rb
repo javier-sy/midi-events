@@ -1,15 +1,44 @@
 module MIDIEvents
 
-  # A DSL for instantiating message objects
+  # DSL for creating MIDI messages with shared context
+  #
+  # Provides a convenient way to create multiple MIDI messages that share common
+  # parameters (like channel and velocity) without repeating them for each message.
+  #
+  # @example Basic context usage
+  #   MIDIEvents.with(channel: 0, velocity: 100) do
+  #     note_on("C4")   # Creates NoteOn with channel 0, velocity 100
+  #     note_off("C4")  # Creates NoteOff with channel 0, velocity 100
+  #   end
+  #
+  # @example Override context parameters
+  #   MIDIEvents.with(channel: 0, velocity: 100) do
+  #     note_on("C4")                  # Uses context: channel 0, velocity 100
+  #     note_on("E4", velocity: 127)   # Overrides velocity to 127
+  #   end
+  #
+  # @example Control changes in context
+  #   MIDIEvents.with(channel: 0) do
+  #     control_change("Modulation Wheel", 64)
+  #     program_change("Acoustic Grand Piano")
+  #   end
+  #
+  # @api public
   class Context
 
-    attr_accessor :channel, :velocity
+    # @return [Integer, nil] The MIDI channel (0-15) for messages created in this context
+    attr_accessor :channel
 
-    # Open a context with the given options
-    # @param [Hash] options
-    # @param [Proc] block
-    # @option options [Fixnum] :channel
-    # @option options [Fixnum] :velocity
+    # @return [Integer, nil] The velocity (0-127) for note messages created in this context
+    attr_accessor :velocity
+
+    # Create and execute a context with the given parameters
+    #
+    # @param [Hash] options Context parameters
+    # @param [Proc] block The block to execute within this context
+    # @option options [Integer] :channel MIDI channel (0-15)
+    # @option options [Integer] :velocity Note velocity (0-127)
+    # @return [Object] The result of evaluating the block
     def self.with(options = {}, &block)
       new(options, &block).instance_eval(&block)
     end
