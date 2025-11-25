@@ -199,7 +199,7 @@ Thanks to [Ari Russo](http://github.com/arirusso) for his ruby library [MIDI Mes
 
 ## License
 
-[MIDI Events](https://github.com/javier-sy/midi-events) Copyright (c) 2021 [Javier Sánchez Yeste](https://yeste.studio), licensed under LGPL 3.0 License
+[MIDI Events](https://github.com/javier-sy/midi-events) Copyright (c) 2021-2025 [Javier Sánchez Yeste](https://yeste.studio), licensed under LGPL 3.0 License
 
 [MIDI Message](https://github.com/arirusso/midi-message) Copyright (c) 2011-2015 [Ari Russo](http://arirusso.com), licensed under Apache License 2.0 (see the file LICENSE.midi-message)
 
