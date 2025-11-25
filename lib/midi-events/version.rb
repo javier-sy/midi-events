@@ -43,5 +43,5 @@
 # @note This library is part of the MusaDSL ecosystem
 # @note Based on Ari Russo's MIDI Message library with performance optimizations
 module MIDIEvents
-  VERSION = '0.6.1'.freeze
+  VERSION = '0.7.0'.freeze
 end
