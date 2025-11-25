@@ -1,0 +1,6 @@
+# Configuración de versión para midi-events
+GEM_NAME="midi-events"
+MODULE_NAME="MIDIEvents"
+VERSION_FILE="lib/midi-events/version.rb"
+GEMSPEC_FILE="midi-events.gemspec"
+TEST_COMMAND="bundle exec rake test"
