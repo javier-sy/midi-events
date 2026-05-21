@@ -193,13 +193,23 @@ All in all I have decided to publish a suite of libraries optimized for MusaDSL 
 
 * [Javier Sánchez Yeste](https://github.com/javier-sy)
 
+## More from the MusaDSL ecosystem
+
+- [MusaDSL](https://musadsl.yeste.studio) — Ruby framework for algorithmic sound and musical composition.
+- [MusaLCE](https://musalce.yeste.studio) — live coding environment for Ableton Live and Bitwig Studio.
+- [Nota](https://nota.yeste.studio) — Claude Code plugin for AI-assisted MusaDSL composition.
+- **Pulso** — Stream Deck plugin for MusaLCE Surface controls *(upcoming)*.
+- **VST3 plugins** — collection of audio plugins for mixing and mastering *(upcoming)*.
+
+For the full map — descriptions, how they relate, which one to pick for what — see [musa-ecosystem.yeste.studio](https://musa-ecosystem.yeste.studio).
+
 ## Acknowledgements
 
 Thanks to [Ari Russo](http://github.com/arirusso) for his ruby library [MIDI Message](https://github.com/arirusso/midi-message) licensed as Apache License 2.0.
 
 ## License
 
-[MIDI Events](https://github.com/javier-sy/midi-events) Copyright (c) 2021-2025 [Javier Sánchez Yeste](https://yeste.studio), licensed under LGPL 3.0 License
+[MIDI Events](https://github.com/javier-sy/midi-events) Copyright (c) 2021-2026 [Javier Sánchez Yeste](https://yeste.studio), licensed under LGPL 3.0 License
 
 [MIDI Message](https://github.com/arirusso/midi-message) Copyright (c) 2011-2015 [Ari Russo](http://arirusso.com), licensed under Apache License 2.0 (see the file LICENSE.midi-message)
 
