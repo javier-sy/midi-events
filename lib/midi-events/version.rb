@@ -37,11 +37,11 @@
 # @see MIDIEvents::Context For DSL-style message creation
 # @see MIDIEvents::Constant For MIDI constant lookups
 #
-# @author (c)2021 Javier Sánchez Yeste for the modifications, licensed under LGPL 3.0 License
+# @author (c)2021-2026 yeste.studio for the modifications, licensed under GPL-3.0-or-later
 # @author (c)2011-2015 Ari Russo for original MIDI Message library, licensed under Apache 2.0 License
 #
 # @note This library is part of the MusaDSL ecosystem
 # @note Based on Ari Russo's MIDI Message library with performance optimizations
 module MIDIEvents
-  VERSION = '0.7.1'.freeze
+  VERSION = '1.0.0'.freeze
 end
